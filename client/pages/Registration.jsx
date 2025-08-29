@@ -42,7 +42,7 @@ export default function Registration() {
                 </div>
                 <div className="flex-1 max-w-sm">
                   <img 
-                    src="https://api.builder.io/api/v1/image/assets/TEMP/9d5664add0cad93f8f578d9844571434f02c85f2?width=640"
+                    src="/volunteer.png"
                     alt="Volunteer helping elderly person"
                     className="w-full h-[171px] object-cover rounded-lg"
                   />
