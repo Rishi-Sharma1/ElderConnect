@@ -10,10 +10,14 @@ import {registerElder,
 
 const router = express.Router();
 
+import multer from "multer";
+
+const upload = multer({ dest: 'uploads/' });
+
 // Registration routes
 router.post("/register/elder", registerElder);
-router.post("/register/volunteer", registerVolunteer);
-router.post("/register/ngo", registerNGO);
+router.post("/register/volunteer", upload.fields([{ name: 'profilePicture', maxCount: 1 }, { name: 'identity', maxCount: 1 }]), registerVolunteer);
+router.post("/register/ngo", upload.fields([{ name: 'logo', maxCount: 1 }, { name: 'documents' }]), registerNGO);
 
 // Login routes
 router.post("/login/elder", elderLogin);

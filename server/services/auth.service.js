@@ -22,7 +22,16 @@ export async function registerVolunteer(req, res) {
   try {
     const { name, age, contact, skills, availability, password } = req.body;
     const hashedPassword = await bcrypt.hash(password, 10);
-    const newVolunteer = new Volunteer({ name, age, contact, skills, availability, password: hashedPassword });
+    const newVolunteer = new Volunteer({ 
+      name, 
+      age, 
+      contact, 
+      skills, 
+      availability, 
+      password: hashedPassword,
+      profilePicture: req.files.profilePicture ? req.files.profilePicture[0].path : null,
+      identity: req.files.identity ? req.files.identity[0].path : null,
+    });
     await newVolunteer.save();
     res.status(201).json({ message: "Volunteer registered", user: newVolunteer });
   } catch (err) {
@@ -35,7 +44,16 @@ export async function registerNGO(req, res) {
   try {
     const { name, contact, address, services, registrationNumber, password } = req.body;
     const hashedPassword = await bcrypt.hash(password, 10);
-    const newNGO = new NGO({ name, contact, address, services, registrationNumber, password: hashedPassword });
+    const newNGO = new NGO({ 
+      name, 
+      contact, 
+      address, 
+      services, 
+      registrationNumber, 
+      password: hashedPassword,
+      logo: req.files.logo ? req.files.logo[0].path : null,
+      documents: req.files.documents ? req.files.documents.map(file => file.path) : [],
+    });
     await newNGO.save();
     res.status(201).json({ message: "NGO registered", user: newNGO });
   } catch (err) {

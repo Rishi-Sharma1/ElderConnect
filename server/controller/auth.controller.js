@@ -8,7 +8,6 @@ import bcrypt from "bcryptjs";
 export async function elderLogin(req, res) {
   const { contact, password } = req.body;
   try {
-    console.log("JWT_SECRET:", process.env.JWT_SECRET);
     const user = await Elderly.findOne({ contact });
     if (!user) return res.status(404).json({ error: "Elder not found" });
     const valid = await bcrypt.compare(password, user.password);

@@ -19,10 +19,42 @@ export default function Login() {
     }));
   };
 
-  const handleLogin = (e) => {
+  const handleLogin = async (e) => {
     e.preventDefault();
-    console.log("Login submitted:", { ...loginData, userType: activeTab });
-    // Handle login logic here
+
+    let userType = activeTab;
+    if (activeTab === 'ngo') {
+      userType = 'ngo'; // Using ngo endpoint for ngo login
+    }
+
+    const endpoint = `http://localhost:5000/login/${userType}`;
+
+    try {
+      const response = await fetch(endpoint, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          contact: loginData.email, // Assuming email is used as contact for login
+          password: loginData.password,
+        }),
+      });
+
+      const data = await response.json();
+
+      if (response.ok) {
+        console.log('Login successful:', data);
+        // Store the token (e.g., in localStorage) and redirect the user
+        localStorage.setItem('token', data.token);
+        // You can add redirection logic here, e.g., using react-router-dom's useNavigate
+      } else {
+        console.error('Login failed:', data.error);
+        // Handle login failure (e.g., show an error message)
+      }
+    } catch (error) {
+      console.error('An error occurred during login:', error);
+    }
   };
 
   const handleSendOTP = () => {

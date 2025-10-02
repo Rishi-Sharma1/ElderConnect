@@ -13,6 +13,8 @@ import VolunteerRegistration from "./pages/VolunteerRegistration.jsx";
 import NGORegistration from "./pages/NGORegistration.jsx";
 import ElderlyRegistration from "./pages/ElderlyRegistration.jsx";
 import Login from "./pages/Login.jsx";
+import About from "./pages/About.jsx";
+import ContactUs from "./pages/ContactUs.jsx";
 
 const queryClient = new QueryClient();
 
@@ -24,6 +26,8 @@ const App = () => (
       <BrowserRouter>
         <Routes>
           <Route path="/" element={<Index />} />
+          <Route path="/about" element={<About />} />
+          <Route path="/contact" element={<ContactUs />} />
           <Route path="/login" element={<Login />} />
           <Route path="/register" element={<Registration />} />
           <Route path="/register/volunteer" element={<VolunteerRegistration />} />

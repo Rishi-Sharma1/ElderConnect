@@ -6,6 +6,9 @@ const NGOSchema = new mongoose.Schema({
   address: { type: String },
   services: { type: [String] },
   registrationNumber: { type: String },
+  password: { type: String, required: true },
+  logo: { type: String },
+  documents: { type: [String] },
 });
 
 export const NGO = mongoose.model("NGO", NGOSchema);

@@ -1,10 +1,11 @@
-import Header from "../components/Header.jsx";
+
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Label } from "@/components/ui/label";
 import { useState, useRef } from "react";
-
+import axios from "axios";
+import Header from "../components/Header.jsx";
 export default function NGORegistration() {
   const [formData, setFormData] = useState({
     organizationName: "",
@@ -55,10 +56,39 @@ export default function NGORegistration() {
     handleFileChange(field, files);
   };
 
-  const handleSubmit = (e) => {
+
+
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log("NGO Form submitted:", formData);
-    // Handle form submission here
+    const postData = new FormData();
+    postData.append('name', formData.organizationName);
+    postData.append('contact', formData.contactEmail);
+    postData.append('address', `${formData.address}, ${formData.city}, ${formData.state} ${formData.zipCode}, ${formData.country}`);
+    postData.append('services', formData.servicesOffered);
+    postData.append('password', 'defaultPassword');
+    if (formData.logo) {
+      postData.append('logo', formData.logo);
+    }
+    formData.documents.forEach((file) => {
+      postData.append('documents', file);
+    });
+
+    try {
+      const response = await axios.post(`${import.meta.env.VITE_API_BASE_URL}/register/ngo`, postData, {
+        headers: {
+          'Content-Type': 'multipart/form-data',
+        },
+      });
+      console.log("NGO registration successful:", response.data);
+
+    } catch (error) {
+      if (error.response) {
+        console.error("Registration failed:", error.response.data.error);
+      } else {
+        console.error("An unexpected error occurred:", error.message);
+      }
+
+    }
   };
 
   return (

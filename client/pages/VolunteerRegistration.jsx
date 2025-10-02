@@ -11,6 +11,7 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { useState } from "react";
+import axios from "axios";
 
 export default function VolunteerRegistration() {
   const [formData, setFormData] = useState({
@@ -38,10 +39,37 @@ export default function VolunteerRegistration() {
     }));
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log("Form submitted:", formData);
-    // Handle form submission here
+    const postData = new FormData();
+    postData.append('name', formData.fullName);
+    postData.append('contact', formData.phone);
+    postData.append('skills', formData.skills);
+    postData.append('availability', formData.availability);
+    postData.append('password', 'defaultPassword'); // Add a password field
+    if (formData.profilePicture) {
+      postData.append('profilePicture', formData.profilePicture);
+    }
+    if (formData.identity) {
+      postData.append('identity', formData.identity);
+    }
+
+    try {
+      const response = await axios.post(`${import.meta.env.VITE_API_BASE_URL}/register/volunteer`, postData, {
+        headers: {
+          'Content-Type': 'multipart/form-data',
+        },
+      });
+      console.log("Volunteer registration successful:", response.data);
+      // TODO: Handle success
+    } catch (error) {
+      if (error.response) {
+        console.error("Registration failed:", error.response.data.error);
+      } else {
+        console.error("An unexpected error occurred:", error.message);
+      }
+      // TODO: Handle error
+    }
   };
 
   return (

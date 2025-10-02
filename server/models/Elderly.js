@@ -6,6 +6,11 @@ const ElderlySchema = new mongoose.Schema({
   address: { type: String },
   contact: { type: String },
   needs: { type: String },
+  email:{
+    type: String,
+    required: false,
+    unique: true,
+  },
   password: { type: String, required: true },
 });
 

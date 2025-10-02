@@ -57,24 +57,24 @@ const Header = () => {
             >
               Home
             </Link>
-            <a
-              href="#about"
+            <Link
+              to="/about"
               className="text-[#0D141C] text-sm font-normal leading-5 hover:text-[#4799EB] transition-colors"
             >
               About
-            </a>
+            </Link>
             <a 
               href="#services" 
               className="text-[#0D141C] text-sm font-normal leading-5 hover:text-[#4799EB] transition-colors"
             >
               Services
             </a>
-            <a 
-              href="#contact" 
+            <Link
+              to="/contact"
               className="text-[#0D141C] text-sm font-normal leading-5 hover:text-[#4799EB] transition-colors"
             >
               Contact
-            </a>
+            </Link>
           </nav>
 
           {/* Auth Buttons */}

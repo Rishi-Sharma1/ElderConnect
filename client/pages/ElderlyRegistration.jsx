@@ -11,6 +11,7 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { useState } from "react";
+import axios from "axios";
 
 export default function ElderlyRegistration() {
   const [formData, setFormData] = useState({
@@ -31,10 +32,27 @@ export default function ElderlyRegistration() {
     }));
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log("Elderly Form submitted:", formData);
-    // Handle form submission here
+    try {
+      const response = await axios.post(`${import.meta.env.VITE_API_BASE_URL}/register/elder`, {
+        name: formData.fullName,
+        contact: formData.contactNumber,
+        address: formData.address,
+        // You may need to add other fields to your backend model
+        // For now, we'll send the core fields
+        password: "defaultPassword", // You need a password field
+      });
+      console.log("Elderly registration successful:", response.data);
+      // TODO: Handle success (e.g., show a success message, redirect to login)
+    } catch (error) {
+      if (error.response) {
+        console.error("Registration failed:", error.response.data.error);
+      } else {
+        console.error("An unexpected error occurred:", error.message);
+      }
+      // TODO: Handle error (e.g., show an error message to the user)
+    }
   };
 
   return (
